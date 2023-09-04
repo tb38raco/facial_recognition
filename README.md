@@ -1,34 +1,31 @@
-# FACIAL RECOGNITION SYSTEM
-## A short guide to detect and compare faces
-
-Modelle/Module erklären
+# Automatisierte Erkennung von Gesichtern und Emotionen 
+## Eine kurze Anleitung zum Ausprobieren eigener Versuche
 
 ```python
-# required: pip install deepface matplotlib
+# Benötigt: pip install deepface matplotlib 
 import os
 
 from deepface import DeepFace
 import cv2
 import matplotlib.pyplot as plt
 from fer import FER
+from tabulate import tabulate  # Installiere die tabulate-Bibliothek mit 'pip install tabulate'
+
 ```
-hier können eigene ordner eingefügt werden
+
+An dieser Stelle könnne eigene Ordnerpfade zu Bildern angegeben werden, die miteinander verglichen werden sollen
 ```python
 # Pfad zum Ordner mit den Bildern
 folder_path = 'IMG_1001.JPG'
 ```
 
-Modelle/Module erklären
 ```python
 # Emotion-Recognizer-Objekt erstellen
 emotion_recognizer = FER()
 
 # Gesichtserkennungskaskade laden
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-```
 
-
-```python
 # Flag für die Anzeige der Emotionen und Altersschätzung
 show_emotions = True
 show_age = True
@@ -37,7 +34,7 @@ show_age = True
 results = []
 ```
 
-Alle Bilder im Ordner werden miteinander verglichen
+Alle Bilder, die in dem Ordner liegen werden nun miteinander verglichen.
 ```python
 # Durchlaufe alle Bilder im Ordner
 files = os.listdir(folder_path)
@@ -52,19 +49,38 @@ for i in range(len(files)):
 
         # Ergebnis zur Ergebnisliste hinzufügen
         results.append((files[i], files[j], result["distance"], result["verified"]))
-```
+        # Erstellen Sie eine Tabelle mit den Ergebnissen
+        table_headers = ["Bild 1", "Bild 2", "Distanz", "Wahrheitswert"]
+        table_data = results
 
-Code so modifizieren, dass Ergebnisse in Tabelle ausgegeben werden
+        # Tabelle anzeigen
+        print(tabulate(table_data, headers=table_headers, tablefmt="pretty"))
+
+ # Festlegen des Schwellenwerts für die Gesichtsverifikation
+        threshold = 0.6  # Ändern Sie diesen Schwellenwert nach Bedarf
+
+        # Überprüfe, ob der Wahrheitswert basierend auf dem Schwellenwert True oder False ist
+        updated_table_data = []
+        for row in table_data:
+            distance = row[2]
+            is_verified = distance < threshold
+            updated_table_data.append([row[0], row[1], distance, is_verified])
+
+        # Aktualisierte Tabelle anzeigen
+        print("\nAktualisierte Tabelle mit dem Schwellenwert:")
+        print(tabulate(updated_table_data, headers=table_headers, tablefmt="pretty"))
+```
+Der code wird so verändert, dass das Ergebnis in Tabellenform angezeigt wird.
 ```python
 # Ergebnisse ausgeben
 print("Bild 1\t\tBild 2\t\tDistanz\t\tWahrheitswert")
 print("------------------------------------------------------------")
 for filename1, filename2, distance, verified in results:
     print(f"{filename1}\t\t{filename2}\t\t{distance}\t\t{verified}")
-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
+
 ```
 
-
+Die angeschlossene oder eingebaute Kamera wird nun verwendet, damit Gesichter erkannt werden können.
 ```python
 # Kamera initialisieren
 camera = cv2.VideoCapture(0)
@@ -100,17 +116,17 @@ while True:
         else:
             # Nur den grünen Kasten anzeigen
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-```
+            
 
 
 ```python
-    # Livestream anzeigen
+# Livestream anzeigen
     cv2.imshow('Emotion and Age Detection', frame)
 ```
 
-
+Damit das sich automatisch öffnende Fenster mit dem Kamerabild gesteuert werden kann, können Kurzbefehle festgelegt werden.
 ```python
-  # Tastenabfrage
+# Tastenabfrage
     key = cv2.waitKey(1)
     if key == ord('q') or key == ord('Q'):  # 'q' drücken, um die Schleife zu beenden
         break
@@ -118,8 +134,8 @@ while True:
         show_emotions = not show_emotions
     elif key == ord('a') or key == ord('A'):  # 'a' drücken, um das Alter ein- oder auszublenden
         show_age = not show_age
+        
 ```
-
 
 ```python
 # Kameraressourcen freigeben
