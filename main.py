@@ -16,7 +16,6 @@
 import os
 from deepface import DeepFace
 import cv2
-import matplotlib.pyplot as plt
 from fer import FER
 from tabulate import tabulate  # Installieren Sie die tabulate-Bibliothek mit "pip install tabulate"
 
@@ -26,6 +25,28 @@ folder_path = 'IMG_1001.JPG'
 
 # Liste, um die Ergebnisse der Gesichtsverifikation zu speichern
 results = []
+
+# Durchlaufe alle Bilder im Ordner
+files = os.listdir(folder_path)
+for i in range(len(files)):
+    for j in range(i + 1, len(files)):
+        # Pfade zu den Bildern erstellen
+        img1_path = os.path.join(folder_path, files[i])
+        img2_path = os.path.join(folder_path, files[j])
+
+        # Gesichter in den Bildern erkennen (mit DeepFace)
+        detected_faces_img1 = DeepFace.extract_faces(img1_path, enforce_detection=False)
+        detected_faces_img2 = DeepFace.extract_faces(img2_path, enforce_detection=False)
+
+        if detected_faces_img1 is not None and detected_faces_img2 is not None:
+            # Verifikationsprozess durchführen
+            result = DeepFace.verify(img1_path=img1_path, img2_path=img2_path, model_name='VGG-Face', enforce_detection=False)
+
+            # Ergebnis zur Ergebnisliste hinzufügen (als Liste, nicht als Tupel)
+            results.append([files[i], files[j], result["distance"], result["verified"]])
+        else:
+            # Wenn Gesichter nicht erkannt wurden, geben Sie den Bildtitel aus
+            print(f"Gesichter in {files[i]} und {files[j]} wurden nicht erkannt.")
 
 
 # Durchlaufe alle Bilder im Ordner
@@ -58,7 +79,7 @@ table_data = results
 print(tabulate(table_data, headers=table_headers, tablefmt="pretty"))
 
 # Festlegen des Schwellenwerts für die Gesichtsverifikation
-threshold = 0.5  # Ändern Sie diesen Schwellenwert nach Bedarf
+threshold = 0.6  # Ändern Sie diesen Schwellenwert nach Bedarf
 
 # Überprüfen Sie, ob der Wahrheitswert basierend auf dem Schwellenwert True oder False ist
 updated_table_data = []
@@ -116,18 +137,18 @@ while True:
         else:
             # Nur den grünen Kasten anzeigen
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+         
+# Livestream anzeigen
+cv2.imshow('Emotion and Age Detection', frame)
 
-    # Livestream anzeigen
-    cv2.imshow('Emotion and Age Detection', frame)
-
-    # Tastenabfrage
-    key = cv2.waitKey(1)
-    if key == ord('q') or key == ord('Q'):  # 'q' drücken, um die Schleife zu beenden
-        break
-    elif key == ord('e') or key == ord('E'):  # 'e' drücken, um die Emotionen ein- oder auszublenden
-        show_emotions = not show_emotions
-    elif key == ord('a') or key == ord('A'):  # 'a' drücken, um das Alter ein- oder auszublenden
-        show_age = not show_age
+# Tastenabfrage
+key = cv2.waitKey(1)
+if key == ord('q') or key == ord('Q'):  # 'q' drücken, um die Schleife zu beenden
+    break
+elif key == ord('e') or key == ord('E'):  # 'e' drücken, um die Emotionen ein- oder auszublenden
+    show_emotions = not show_emotions
+elif key == ord('a') or key == ord('A'):  # 'a' drücken, um das Alter ein- oder auszublenden
+    show_age = not show_age
 
 # Kameraressourcen freigeben
 camera.release()
