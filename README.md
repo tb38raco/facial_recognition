@@ -38,15 +38,28 @@ folder_path = 'IMG_1001.JPG'
 ```
 
 ### 1.2 Erkennungs- & Verifikationsprozess  
-In diesem Code werden viele Schritte durchgeführt, um Gesichter in Bildern zu erkennen und dann festzustellen, wie ähnlich oder verschieden diese Gesichter sind.
+In diesem Abschnitt führen wir die Gesichtverifikation durch.
+
 Mit der for-Schleife betrachten wir jedes einzelne Bild im Ordner.
-        Dann nehmen wir zwei Bilder und erstellen ein "Bildpaar" aus diesen beiden Bildern, um zu überprüfen, wie ähnlich oder verschieden sie sind.
-        Erkenne Gesichter: Wir schauen uns jedes Bild in diesem Bildpaar an und versuchen, Gesichter darauf zu finden.
-        Durchführen der Gesichtsverifikation: Wenn wir in beiden Bildern Gesichter finden, führen wir eine *Gesichtsverifikation* durch.
-        Für diese Überprüfung verwenden ein Modell namens "VGG-Face".
-        [VGG-Face](https://exposing.ai/vgg_face/) ist ein tiefes [neuronales Netzwerkmodell](https://www.heise.de/ratgeber/Neuronale-Netz-einfach-erklaert-6343697.html), dessen Hauptaufgabe in der Gesichtserkennung und der Extraktion von Gesichtsmerkmalen besteht.
-        Dazu wird jedes Bild zunächst durch Vorverarbeitung auf ein einheitliches Format gebracht und anschließend aus jedem erkannten Gesicht ein sogenannter *Merkmalsvektor* erzeugt. Diese Übersetzung eines Bildes in eine für Maschinen erfassbare Sprache, also die der Mathematik, bildet die Grundlage für alle weiteren Aufgaben, die unser Gesichtserkennungssystem erfüllen soll. Diese Vorgehensweise ist typisch für Deep Learning-Bildverarbeitungsmodelle.
-        Die Deepface-Bibliothek erlaubt außerdem eine Auswahl unterschiedlichster Modell und Metriken. So können wir beispielsweise in Zeile 18 'VGG-Face' durch 'OpenFace' ersetzen und die Ergebnisse in Abhängigkeit des verwendeten Modells beobachten. Genauere Informationen über verfügbare Alternativen findet ihr [hier](https://github.com/serengil/deepface/blob/master/deepface/DeepFace.py).
+
+Dann nehmen wir zwei Bilder und erstellen ein "Bildpaar" aus diesen beiden Bildern, um zu überprüfen, wie ähnlich oder verschieden sie sind.
+
+__Erkenne Gesichter__: Wir schauen uns jedes Bild in diesem Bildpaar an und versuchen, Gesichter darauf zu finden.
+
+__Durchführen der Gesichtsverifikation__: Wenn wir in beiden Bildern Gesichter finden, führen wir eine *Gesichtsverifikation* durch.
+Für diese Überprüfung verwenden ein Modell namens "VGG-Face".
+
+[VGG-Face](https://exposing.ai/vgg_face/) ist ein tiefes [neuronales Netzwerkmodell](https://www.heise.de/ratgeber/Neuronale-Netz-einfach-erklaert-6343697.html),
+dessen Hauptaufgabe in der Gesichtserkennung und der Extraktion von Gesichtsmerkmalen besteht.
+Dazu wird jedes Bild zunächst durch Vorverarbeitung auf ein einheitliches Format gebracht und anschließend aus jedem erkannten Gesicht ein sogenannter *Merkmalsvektor* erzeugt.
+
+Diese Übersetzung eines Bildes in eine für Maschinen erfassbare Sprache, also die der Mathematik, bildet die Grundlage für alle weiteren Aufgaben,
+die unser Gesichtserkennungssystem erfüllen soll. Diese Vorgehensweise ist typisch für Deep Learning-Bildverarbeitungsmodelle.
+
+Die Deepface-Bibliothek erlaubt außerdem eine Auswahl unterschiedlichster Modell und Metriken.
+So können wir beispielsweise in Zeile 18 *VGG-Face* durch *OpenFace* ersetzen und die Ergebnisse in Abhängigkeit des verwendeten Modells beobachten.
+
+Genauere Informationen über verfügbare Alternativen findet ihr [hier](https://github.com/serengil/deepface/blob/master/deepface/DeepFace.py).
 ```python
 
 # Liste, um die Ergebnisse der Gesichtsverifikation zu speichern
@@ -98,14 +111,18 @@ for filename1, filename2, distance, verified in results:
 ### 1.4   Gesichtsverifikation mit Schwellenwert
 
 Wir erinnern uns, das jedes Gesicht nun als Vektor vorliegt, wobei die einzelnen Koordinaten die n-vielen Gesichtsmerkmale
-im n-dimensionalen Merkmalsraum darstellen. Diese kann die KI nun verwenden um Gesichter miteinander zu vergleichen.
-Dazu benötigen wir eine Vegleichsmetrik, auch als Distanz bezeichnet. Wir verwenden hier die Kosinus Ähnlichkeit,
-also der Winkel zwischen zwei Vektoren. Diese berechnet sich durch $\text{cosineSimilarity}(A, B) = 1 - \cos(A, B)$, was ihr [hier](https://towardsdatascience.com/importance-of-distance-metrics-in-machine-learning-modelling-e51395ffe60d) nochmal genauer nachlesen könnt.
- Das bedeutet die
-Distanz kann Werte zwischen 0 und 1 annehmen und je näher der Wert an 0 liegt, desto ähnlicher sind sich zwei Gesichter.
+im n-dimensionalen Merkmalsraum darstellen.
+Diese kann die KI nun verwenden um Gesichter miteinander zu vergleichen.
+
+Dazu benötigen wir eine Vegleichsmetrik, auch als Distanz bezeichnet.
+Wir verwenden hier die Kosinus Ähnlichkeit, also den Winkel zwischen zwei Vektoren.
+Diese berechnet sich durch $\text{cosine_similarity}(A, B) = 1 - \cos(A, B)$.
+Eine Übersicht über verschiedene Matriken und ihre Einsatzbereiche findet Ihr [hier](https://towardsdatascience.com/importance-of-distance-metrics-in-machine-learning-modelling-e51395ffe60d).
+
+Das bedeutet die Distanz kann Werte zwischen 0 und 1 annehmen und je näher der Wert an 0 liegt, desto ähnlicher sind sich zwei Gesichter.
 An dieser Stelle kommt der Schwellenwert (_threshold_) ins Spiel. Ob die die Gesichtsverifikation zweier Gesichter als wahr
-oder falsch ausgewertet wird, ist abhängig von dem Wert den wir hier festlegen. Standardmäßig lag dieser im vorangegangenen
-Codeblock bei 0.4.
+oder falsch ausgewertet wird, ist abhängig von dem Wert den wir hier festlegen.
+Standardmäßig lag dieser im vorangegangenen Codeblock bei 0.4.
 ```python
 # Festlegen des Schwellenwerts für die Gesichtsverifikation
 threshold = 0.6  # Ändern Sie diesen Schwellenwert nach Bedarf
@@ -126,17 +143,17 @@ print(tabulate(updated_table_data, headers=table_headers, tablefmt="pretty"))
 
 ### 2.1   Gesichtsekennung, emotion- und age detection.
 
-Emotion-Recognizer-Objekt: Dies ist ein Objekt, das verwendet wird, um Emotionen in Gesichtern zu erkennen.
+__Emotion-Recognizer-Objekt__: Dies verwenden wir, um Emotionen in Gesichtern zu erkennen.
 Es ist so eingerichtet, dass es in Bildern nach Gesichtern sucht und dann die Emotionen in diesen Gesichtern 
 identifiziert.
 
-Gesichtserkennungskaskade: Dies ist ein Hilfsmittel für die Gesichtserkennung. Die "Kaskade" ist eine spezielle 
-Methode, die in OpenCV (_Computer Vision Library_) verwendet wird, um Gesichter in Bildern zu finden. Diese "Kaskade" 
-wurde bereits trainiert, um die Merkmale von Gesichtern zu erkennen, wie Augen, Nase und Mund. Es hilft, die 
-Positionen von Gesichtern in Bildern zu finden. Der Unterschied zum Deep Learning Anzatz, der auf tiefen neuronalen 
-Netzen beruht, verwendet Haar-cascade statistische Algorithmen auf handgefertigten Merkmalen. Ein Vorteil liegt darin,
-dass diese Algorithmen schneller berechnet werden können und daher oft in Live-Anwendungen eingesetzt werden. Die 
-geringere Genauigkeit im Vergleich zu Deep Learning Modellen nehmen wir für universellere Anwendbarkeit in Kauf.
+__[Haarcascade](https://towardsdatascience.com/face-detection-with-haar-cascade-727f68dafd08)__: Dies ist eine spezielle Objekterkennungsmethode, die in OpenCV verwendet wird,
+um Gesichter in Bildern zu finden.
+Dieses Modell wurde bereits trainiert, um Gesichtsmerkmale wie Augen, Nase und Mund zu identifizieren und damit die Positionen von Gesichtern in Bildern auszumachen.
+
+Im Unterschied zum Deep Learning Anzatz, der auf tiefen neuronalen Netzen beruht, verwendet Haar-cascade statistische Algorithmen auf handgefertigten Merkmalen.
+Ein Vorteil liegt darin, dass diese Algorithmen schneller berechnet werden können und daher oft in Live-Anwendungen eingesetzt werden.
+Die geringere Genauigkeit im Vergleich zu Deep Learning Modellen nehmen wir für universellere Anwendbarkeit in Kauf.
 ```python
 # Emotion-Recognizer-Objekt erstellen
 emotion_recognizer = FER()
@@ -151,7 +168,7 @@ show_age = True
 
 ### 2.2 Kameraverwendung
 
-Dieser Code erstellt also einen Echtzeit-Video-Stream, auf dem Gesichter erkannt und optional Emotionen und Altersschätzungen angezeigt werden.
+Dieser Code erstellt einen Echtzeit-Video-Stream, auf dem Gesichter erkannt und optional Emotionen und Altersschätzungen angezeigt werden.
     
 Zuerst wird eine Endlosschleife erstellt, die kontinuierlich Bilder vom Kamerastream liest. Für jedes gelesene Bild wird 
 die Gesichtserkennung durchgeführt, um Gesichter im Bild zu identifizieren. Wenn Gesichter erkannt werden:
@@ -162,11 +179,10 @@ __Wenn__ die Variable show_age aktiviert ist, wird das Alter der erkannten Gesic
     
 __Andernfalls__ wird nur ein grüner Rahmen um die erkannten Gesichter gezeichnet.
 
+### 2.3 Shortcuts
 
-### 2.4 Shortcuts
-
-Um eine komfortablere Anwendung zu ermöglichen, haben wir Tastaturkurzbefehle integriert, damit wir wählen können 
-welche Ergebnisse angezeigt werden und die Anwendung geschlossen werden kann.
+Um eine komfortablere Anwendung zu ermöglichen, haben wir Tastaturkurzbefehle integriert, damit wir wählen können,
+welche Ergebnisse angezeigt werden und wie die Anwendung wieder geschlossen werden kann.
 
 ```python
 # Kamera initialisieren
