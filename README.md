@@ -160,6 +160,13 @@ __Wenn__ die Variable show_emotions aktiviert ist, werden Emotionen in den erkan
 __Wenn__ die Variable show_age aktiviert ist, wird das Alter der erkannten Gesichter geschätzt und auf dem Bild angezeigt.
     
 __Andernfalls__ wird nur ein grüner Rahmen um die erkannten Gesichter gezeichnet.
+
+
+### 2.4 Shortcuts
+
+Um eine komfortablere Anwendung zu ermöglichen, haben wir Tastaturkurzbefehle integriert, damit wir wählen können 
+welche Ergebnisse angezeigt werden und die Anwendung geschlossen werden kann.
+
 ```python
 # Kamera initialisieren
 camera = cv2.VideoCapture(0)
@@ -196,27 +203,18 @@ while True:
             # Nur den grünen Kasten anzeigen
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-```
+        cv2.imshow('Emotion and Age Detection', frame)
 
-### 2.3 Livestream anzeigen
-```python
-cv2.imshow('Emotion and Age Detection', frame)
-```
+        # Tastenabfrage
+        key = cv2.waitKey(1)
+        if key == ord('q') or key == ord('Q'):  # 'q' drücken, um die Schleife zu beenden
+              break
+        elif key == ord('e') or key == ord('E'):  # 'e' drücken, um die Emotionen ein- oder auszublenden
+              show_emotions = not show_emotions
+        elif key == ord('a') or key == ord('A'):  # 'a' drücken, um das Alter ein- oder auszublenden
+              show_age = not show_age
+ ```
 
-### 2.4 Shortcuts
-
-Um eine komfortablere Anwendung zu ermöglichen, haben wir Tastaturkurzbefehle integriert, damit wir wählen können 
-welche Ergebnisse angezeigt werden und die Anwendung geschlossen werden kann.
-```python
-# Tastenabfrage
-  key = cv2.waitKey(1)
-  if key == ord('q') or key == ord('Q'):  # 'q' drücken, um die Schleife zu beenden
-        break
-  elif key == ord('e') or key == ord('E'):  # 'e' drücken, um die Emotionen ein- oder auszublenden
-        show_emotions = not show_emotions
-  elif key == ord('a') or key == ord('A'):  # 'a' drücken, um das Alter ein- oder auszublenden
-        show_age = not show_age
-```
 
 ### 2.5 Kameraressourcen freigeben
 
