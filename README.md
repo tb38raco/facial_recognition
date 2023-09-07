@@ -116,7 +116,7 @@ Diese kann die KI nun verwenden um Gesichter miteinander zu vergleichen.
 
 Dazu benötigen wir eine Vegleichsmetrik, auch als Distanz bezeichnet.
 Wir verwenden hier die Kosinus Ähnlichkeit, also den Winkel zwischen zwei Vektoren.
-Diese berechnet sich durch $\text{cosine_similarity}(A, B) = 1 - \cos(A, B)$.
+Diese berechnet sich durch $\text{cosineSimilarity}(A, B) = 1 - \cos(A, B)$.
 Eine Übersicht über verschiedene Matriken und ihre Einsatzbereiche findet Ihr [hier](https://towardsdatascience.com/importance-of-distance-metrics-in-machine-learning-modelling-e51395ffe60d).
 
 Das bedeutet die Distanz kann Werte zwischen 0 und 1 annehmen und je näher der Wert an 0 liegt, desto ähnlicher sind sich zwei Gesichter.
@@ -233,7 +233,7 @@ while True:
  ```
 
 
-### 2.5 Kameraressourcen freigeben
+### 2.4 Kameraressourcen freigeben
 
     Um eurer Maschine mitzuteilen, dass die Berechnung beendet ist, ist es immer wichtig, dass wir die gestarteten Prozesse sauber beenden.
 ```python
