@@ -99,7 +99,7 @@ for filename1, filename2, distance, verified in results:
 Wir erinnern uns, das jedes Gesicht nun als Vektor vorliegt, wobei die einzelnen Koordinaten die n-vielen Gesichtsmerkmale
 im n-dimensionalen Merkmalsraum darstellen. Diese kann die KI nun verwenden um Gesichter miteinander zu vergleichen.
 Dazu benötigen wir eine Vegleichsmetrik, auch als Distanz bezeichnet. Wir verwenden hier die Kosinus Ähnlichkeit,
-also der Winkel zwischen zwei Vektoren. Diese berechnet sich durch $\text{cosine_similarity}(A, B) = 1 - \cos(A, B)$, was ihr [hier](https://towardsdatascience.com/importance-of-distance-metrics-in-machine-learning-modelling-e51395ffe60d) nochmal genauer nachlesen könnt.
+also der Winkel zwischen zwei Vektoren. Diese berechnet sich durch $\text{cosineSimilarity}(A, B) = 1 - \cos(A, B)$, was ihr [hier](https://towardsdatascience.com/importance-of-distance-metrics-in-machine-learning-modelling-e51395ffe60d) nochmal genauer nachlesen könnt.
  Das bedeutet die
 Distanz kann Werte zwischen 0 und 1 annehmen und je näher der Wert an 0 liegt, desto ähnlicher sind sich zwei Gesichter.
 An dieser Stelle kommt der Schwellenwert (_threshold_) ins Spiel. Ob die die Gesichtsverifikation zweier Gesichter als wahr
