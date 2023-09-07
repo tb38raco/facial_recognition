@@ -1,21 +1,22 @@
 #       __Kurzanleitung Gesichtserkennung & -verifikation__
 ## 0    Verwendete Module
 
-__DeepFace__: DeepFace ist eine Bibliothek für Python, die sich auf Gesichtsverarbeitung und 
+___DeepFace__: DeepFace ist eine Bibliothek für Python, die sich auf Gesichtsverarbeitung und 
 -erkennung spezialisiert hat. Sie ermöglicht die Arbeit mit Gesichtsmerkmalen, Gesichtsverifikation
 (Überprüfung, ob zwei Gesichter derselben Person gehören) und Emotionserkennung in Bildern.
 
-__OpenCV__ (cv2): OpenCV ist eine Open-Source-Bibliothek für Computer Vision. Diese wird verwendet, 
+__OpenCV__ (Computer Vision Library): OpenCV ist eine Open-Source-Bibliothek für Computer Vision. Diese wird verwendet,
 um Bilder und Videos zu verarbeiten, Gesichtserkennung durchzuführen und visuelle Aufgaben in 
 Python zu automatisieren.
 
 __FER__ (Facial Expression Recognition): FER ist eine Bibliothek für die Erkennung von Gesichtsausdrücken.
-Sie hilft dabei, Emotionen innerhalb von Gesichtern zu erkennen, wie zum Beispiel glücklich oder traurig.
+Sie hilft dabei, Emotionen innerhalb von Gesichtern zu erkennen.
 
 __Tabulate__: Die tabulate-Bibliothek ist nützlich, um Tabellen mit Daten zu erstellen und sie in einer 
 übersichtlichen Form darzustellen. Im gegebenen Code wird sie verwendet, um Ergebnisse in Tabellenform
 auszugeben.
 
+Die Bibliotheken lassen sich via 'pip install *Bibliothekname*' installieren
 Die Bibliotheken lassen sich via 'pip install *Bibliothekname*' installieren
 ```python
 import os
@@ -29,8 +30,8 @@ from tabulate import tabulate
 
 ### 1.1   Vergleichsbilder
 
-Zuerst wählen wir einen Ordner aus, der Bilder mit Gesichtern enthählt. Diser sollte sich im selben 
-Verzeichnis wie unser Code befinden
+Zuerst wählen wir einen Ordner aus, der Bilder mit Gesichtern enthählt.
+Am besten erstellt Ihr einen Projektordner, in den Ihr dann den Code und Euren Bilderordner packt.
 ```python
 # Pfad zum Ordner mit den Bildern
 folder_path = 'IMG_1001.JPG'
