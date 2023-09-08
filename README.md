@@ -32,6 +32,7 @@ from tabulate import tabulate
 
 Zuerst wählen wir einen Ordner aus, der Bilder mit Gesichtern enthählt.
 Am besten erstellt Ihr einen Projektordner, in den Ihr dann den Code und Euren Bilderordner packt.
+Den Namen des Ordners gebt Ihr dann an Stelle von *IMG_1001.JPG* an.
 ```python
 # Pfad zum Ordner mit den Bildern
 folder_path = 'IMG_1001.JPG'
